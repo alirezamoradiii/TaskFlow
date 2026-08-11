@@ -3,6 +3,8 @@ import { AppModule } from './app/app.module';
 import { ValidationPipe } from '@nestjs/common';
 import helmet from 'helmet';
 import compression from 'compression';
+import { SwaggerModule } from '@nestjs/swagger';
+import swagger from './configs/swagger.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -25,6 +27,9 @@ async function bootstrap() {
       transform: true,
     }),
   );
+
+  const document = swagger(app);
+  SwaggerModule.setup('/api/docs', app, document);
 
   await app.listen(process.env.PORT ?? 3000);
 }
