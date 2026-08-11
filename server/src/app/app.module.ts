@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import appConfig from '../configs/app.config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 const ENV = process.env.NODE_ENV;
 
@@ -10,9 +11,22 @@ const ENV = process.env.NODE_ENV;
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: ENV ? `${ENV}.env` : '.env',
-      load: [appConfig]
-    })
+      envFilePath: ENV ? `.env.${ENV}.local` : '.env',
+      load: [appConfig],
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (service: ConfigService) => ({
+        type: 'postgres',
+        port: +service.get('appConfig.db_port'),
+        username: service.get<string>('appConfig.db_user'),
+        password: service.get<string>('appConfig.db_password'),
+        database: 'taskflow',
+        synchronize: ENV === 'development' ? true : false,
+        autoLoadEntities: true,
+      })
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
