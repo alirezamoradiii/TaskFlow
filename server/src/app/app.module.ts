@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import appConfig from '../configs/app.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import UserModule from '../modules/user/user.module';
 
 const ENV = process.env.NODE_ENV;
 
@@ -27,8 +26,9 @@ const ENV = process.env.NODE_ENV;
         autoLoadEntities: true,
       })
     }),
+    UserModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
