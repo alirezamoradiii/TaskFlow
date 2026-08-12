@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import appConfig from '../configs/app.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import UserModule from '../user/user.module';
+import UserModule from '../modules/user/user.module';
 
 const ENV = process.env.NODE_ENV;
 
