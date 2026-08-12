@@ -6,8 +6,9 @@ import { HashingProvider } from './providers/hashing.provider';
   providers: [
     {
       provide: HashingProvider,
-      useClass: BcryptProvider
-    }
-  ]
+      useClass: BcryptProvider,
+    },
+  ],
+  exports: [ HashingProvider ]
 })
 export default class AuthModule {}
