@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import appConfig from '../configs/app.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import UserModule from '../modules/user/user.module';
+import AuthModule from '../modules/auth/auth.module';
 
 const ENV = process.env.NODE_ENV;
 
@@ -27,6 +28,7 @@ const ENV = process.env.NODE_ENV;
       })
     }),
     UserModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
